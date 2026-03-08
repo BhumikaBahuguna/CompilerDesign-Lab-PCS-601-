@@ -1,27 +1,43 @@
-%option noyywrap
 %{
 #include <stdio.h>
 extern FILE *yyin;
 extern FILE *yyout;
 %}
-%x COMMENT
+
 %%
-"//".*              ;                 /* remove single line comment */
-"/*"                BEGIN(COMMENT);   /* start multiline comment */
-<COMMENT>"*/"       BEGIN(INITIAL);   /* end comment */
-<COMMENT>.|\n       ;                 /* ignore comment content */
-.|\n { printf("%s",yytext); fprintf(yyout,"%s",yytext); }
+
+"//".*                          ;   /* ignore single-line comments */
+
+"/*"([^*]|\*+[^*/])*\*+"/"      ;   /* ignore multi-line comments */
+
+.|\n  { 
+        printf("%s", yytext);           /* print to terminal */
+        fprintf(yyout, "%s", yytext);   /* write to out.c */
+      }
+
 %%
+
 int main()
 {
-yyin = fopen("in.c","r");
-yyout = fopen("out.c","w");
-if(!yyin || !yyout)
-{
-    printf("File error\n");
+    yyin  = fopen("in.c","r");
+    yyout = fopen("out.c","w");
+
+    if(!yyin || !yyout)
+    {
+        printf("File error\n");
+        return 0;
+    }
+
+    yylex();
+
+    fclose(yyin);
+    fclose(yyout);
+
+    printf("\nComments removed. Check out.c\n");
     return 0;
 }
-yylex();
-fclose(yyin);
-fclose(yyout);
+
+int yywrap()
+{
+    return 1;
 }
