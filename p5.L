@@ -1,5 +1,3 @@
-%option noyywrap
-
 %{
 #include <stdio.h>
 int chars=0, words=0, spaces=0, lines=0;
@@ -15,6 +13,11 @@ extern FILE *yyin;
 
 .         { chars++; }
 %%
+
+int yywrap()
+{
+    return 1;
+}
 
 int main()
 {
