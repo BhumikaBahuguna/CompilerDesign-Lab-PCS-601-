@@ -8,7 +8,7 @@ extern FILE *yyout;
 
 "//".*                          ;   /* ignore single-line comments */
 
-"/*"([^*]|\*+[^*/])*\*+"/"      ;   /* ignore multi-line comments */
+"/*"(.|\n)*?"*/"      ;   /* ignore multi-line comments */
 
 .|\n  { 
         printf("%s", yytext);           /* print to terminal */
@@ -41,3 +41,4 @@ int yywrap()
 {
     return 1;
 }
+
