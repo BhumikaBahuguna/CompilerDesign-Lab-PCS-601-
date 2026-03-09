@@ -1,20 +1,37 @@
-%option noyywrap
 %{
-#include <stdio.h>
-int a=0,b=0;
+#include<stdio.h>
 %}
+
+%S S1 S2 S3
+
 %%
-a {a++;}
-b {b++;}
-\n {
-if(a%2==0 && b%2==0) printf("Accepted\n");
-else printf("Rejected\n");
-a=b=0;
+
+<INITIAL>a     BEGIN S1;
+<INITIAL>b     BEGIN S2;
+<INITIAL>\n    { printf("Accepted\n"); }
+
+<S1>a          BEGIN INITIAL;
+<S1>b          BEGIN S3;
+<S1>\n         { printf("Not Accepted\n"); BEGIN INITIAL; }
+
+<S2>a          BEGIN S3;
+<S2>b          BEGIN INITIAL;
+<S2>\n         { printf("Not Accepted\n"); BEGIN INITIAL; }
+
+<S3>a          BEGIN S2;
+<S3>b          BEGIN S1;
+<S3>\n         { printf("Not Accepted\n"); BEGIN INITIAL; }
+
+%%
+
+int yywrap()
+{
+    return 1;
 }
-. ;
-%%
+
 int main()
 {
-printf("Enter string:\n");
-yylex();
+    yylex();
+    return 0;
 }
+
