@@ -6,13 +6,13 @@ extern FILE *yyout;
 
 %%
 
-"//".*                          ;   /* ignore single-line comments */
+"//".*                          ;   
 
-"/*"(.|\n)*?"*/"      ;   /* ignore multi-line comments */
+"/*"(.|\n)*?"*/"      ;   
 
 .|\n  { 
-        printf("%s", yytext);           /* print to terminal */
-        fprintf(yyout, "%s", yytext);   /* write to out.c */
+        printf("%s", yytext);          
+        fprintf(yyout, "%s", yytext);   
       }
 
 %%
@@ -41,4 +41,3 @@ int yywrap()
 {
     return 1;
 }
-
