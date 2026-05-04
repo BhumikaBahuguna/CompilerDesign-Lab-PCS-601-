@@ -2,7 +2,7 @@
 #include <stdio.h>
 %}
 
-KEYWORD  \b(int|float|char|double|if|else|while|for|return|void|break|continue|switch|case|default|do|long|short|unsigned|signed|const|static|struct|union|typedef|enum|sizeof|volatile|register|extern|goto)\b
+KEYWORD  (int|float|char|double|if|else|while|for|return|void|break|continue|switch|case|default|do|long|short|unsigned|signed|const|static|struct|union|typedef|enum|sizeof|volatile|register|extern|goto)
 
 ID       [a-zA-Z_][a-zA-Z0-9_]*
 INVALIDID [0-9]+[a-zA-Z_][a-zA-Z0-9_]*
